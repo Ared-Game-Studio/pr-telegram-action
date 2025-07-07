@@ -50,6 +50,7 @@ function run() {
         try {
             const botToken = core.getInput("bot_token");
             const chatId = core.getInput("chat_id");
+	    const threadId = core.getInput("thread_id");
             if (github.context.eventName !== "pull_request") {
                 throw new Error("This action only works on pull_request events");
             }
@@ -59,7 +60,7 @@ function run() {
             }
             const uri = `https://api.telegram.org/bot${botToken}/sendMessage`;
             const message = formatMessage(payload);
-            yield (0, sendMessage_1.default)(chatId, message, uri);
+            yield (0, sendMessage_1.default)(chatId, threadId, message, uri);
             core.debug(`Message sent!`);
             core.setOutput("Finshed time", new Date().toTimeString());
         }
@@ -134,9 +135,10 @@ const axios_1 = __importDefault(__nccwpck_require__(6545));
  * @param message the message to be sent.
  * @param uri telegram api to send request to.
  */
-const sendMessage = (chatId, message, uri) => {
+const sendMessage = (chatId, threadId, message, uri) => {
     return axios_1.default.post(uri, {
         chat_id: chatId,
+	message_thread_id: threadId,
         text: message,
         parse_mode: "Markdownv2",
     });
