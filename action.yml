@@ -8,6 +8,9 @@ inputs:
   bot_token:
     required: true
     description: 'Telegram bot token'
+  thread_id:
+    required: true
+    description: 'Telegram thread ID'
 branding:
   icon: 'send'
   color: 'gray-dark'
